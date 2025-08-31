@@ -1,3 +1,3 @@
-PARALLEL AND CONCURRENT PROGRAMMING
+# PRACTICAL PARALLEL AND CONCURRENT PROGRAMMING
 
-New repo for anything PPCP related
+Repo for PPCP exercises, assignments and thoughts.
