@@ -29,4 +29,6 @@ the program as a whole be thread-safe or not.
 Added an instance of a lock to the LongCounter class and used it inside the LongCounter.increment() method so
 the lock would be acquired by any thread that is using the method increment()
 
+//TODO: to be finished
+
 ### Exercise 1.1.5
