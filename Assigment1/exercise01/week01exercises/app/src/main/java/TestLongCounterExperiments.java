@@ -38,12 +38,12 @@ public class TestLongCounterExperiments {
 
         public void increment() {
             lock.lock();
-            try {
+            //try {
                 count++;
-            }
-            finally{
+            //}
+            //finally{
                 lock.unlock();
-            }
+            //}
         }
 
         public long get() {

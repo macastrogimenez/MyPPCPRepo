@@ -31,3 +31,4 @@ Finally, since no interleaving is possible the program returns '20000000' as exp
 
 
 ### Exercise 1.1.5
+// TODO: the code has been modified to the minimum number of critical lines? 3 or four -> write longer answer.
