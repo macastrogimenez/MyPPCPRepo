@@ -32,5 +32,9 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = 'org.example.App'
+    // Requires at least Gradle 7.1.1
+    if (project.hasProperty("mainClass"))
+	mainClass.set(project.getProperty("mainClass"))
+    else
+	System.out.println("INFO: If you are trying to run the program, recall to specify the main class with `-PmainClass=<package>.<java_class>`")
 }
