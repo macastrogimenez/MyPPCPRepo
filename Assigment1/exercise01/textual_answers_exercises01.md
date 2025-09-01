@@ -23,12 +23,11 @@ Note: In your explanation, please use the concepts and vocabulary introduced dur
 sections, interleavings, race conditions, mutual exclusion, etc.
 
 ### Exercise 1.1.4
-No other output is possible because the section of the code that has been edited is that part of it which 
-makes use of shared memory (reading and/or writing to it), therefore, it is the critical section that makes
-the program as a whole be thread-safe or not.
-Added an instance of a lock to the LongCounter class and used it inside the LongCounter.increment() method so
-the lock would be acquired by any thread that is using the method increment()
+The idea of mutual exclusion is to prevent two or more threads from modifying or reading shared data in a way that causes race conditions or inconsistent states.
+No other output is possible because the section of the code that has been edited is the critical section that makes the program as a whole be thread-safe (or not - as it was in its original state).
+I added an instance of a lock to the LongCounter class and used it inside the LongCounter.increment() method so
+the lock would be acquired by any thread that is using the method increment() and not released until the very last line of the increment() method. Also, using ReentrantLock is particularly safe since it allows the Thread that currently holds the lock to request for it once more if it needs it (as it would be in the case of incrementing the counter which consists of several steps). 
+Finally, since no interleaving is possible the program returns '20000000' as expected.
 
-//TODO: to be finished
 
 ### Exercise 1.1.5
