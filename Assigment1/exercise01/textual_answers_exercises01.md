@@ -48,7 +48,8 @@ Done - the name of the file is UnsafeTestDashBarPrinter.java and executes as req
 
 ### Exercise 1.2.2
 
-Possible interleavings would be: 
+Possible interleavings would be:
+
 1. Thread 1 prints "-" then Thread 2 prints "-|", then Thread 1 prints "|" resulting in "--||"
 2. Thread 1 prints "-" then Thread 2 prints "-|-", then Thread 1 prints "|" resulting in "--|-|"
 
@@ -60,3 +61,18 @@ Done - the name of the file is SafeTestDashBarPrinter.java and executes as requi
 
 The program is correct because the critical section of the code is properly synchronized, ensuring that the printing of "-" and "|" is done in a thread-safe manner. This prevents any interleaving issues and guarantees the expected output.
 
+## Exercise 1.3
+
+### Exercise 1.3.1
+
+Done - the name of the file is SafeCounterThreads2Covid.java and executes as required.
+
+### Exercise 1.3.2
+
+The program runs in the following way:
+
+- The counter is an AtomicInteger, which guarantees that each increment (getAndIncrement()) is atomic—no increments are lost, even if two threads try to increment at the same time.
+- The ReentrantLock ensures that only one thread at a time can enter the critical section where the counter is incremented and printed. This prevents race conditions and guarantees that the counter never exceeds MAX_PEOPLE_COVID.
+- Both threads (turnstile1 and turnstile2) run a loop, each trying to increment the counter up to PEOPLE times, but the lock and atomic counter ensure that the total never exceeds 15000.
+
+The combination of atomic operations and locking guarantees that all increments are counted and the final result is always correct, regardless of thread scheduling or interleaving.
