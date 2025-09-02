@@ -76,3 +76,52 @@ The program runs in the following way:
 - Both threads (turnstile1 and turnstile2) run a loop, each trying to increment the counter up to PEOPLE times, but the lock and atomic counter ensure that the total never exceeds 15000.
 
 The combination of atomic operations and locking guarantees that all increments are counted and the final result is always correct, regardless of thread scheduling or interleaving.
+
+## Exercise 1.4
+
+### Exercise 1.4.1
+
+From Goetz resource utilization seems to be very closely related to the Inherent point from the concurrency note, like exploitation and convenience. However, there is a difference when it comes to the understanding of fairness. Goetz emphasizes the importance of fairness in resource allocation, ensuring that all users and programs have equitable access to the machine's resources, while the concurrency note touches on fairness more as a byproduct of efficient resource utilization and exploitation.
+Also, it is particularly interesting the point on the concurrency note that highlights the use of concurrency for enabling several programs to share some resources in a manner where each can act as if they had sole ownership (hiding the fact that they are actually sharing those resources).
+
+### Exercise 1.4.2
+
+#### Inherent (I/O, UI, real-world events):
+
+- iOS apps with multiple UI threads → UI thread handles user input; background thread loads data.
+
+- Web servers → Each HTTP request handled independently.
+
+#### Exploitation (Parallel hardware, distributed computing):
+
+- Java → Parallel computations on multicore CPUs.
+
+- Whatsapp on iOS/ Android → Background threads for message handling, UI updates.
+
+#### Hidden (Illusion of exclusive resources):
+
+- Unix multitasking → Many processes “run” simultaneously via time-slicing.
+
+- Java Virtual Machine (JVM) → Many threads appear to run at once, but OS schedules them on available CPUs.
+
+- Web browsers → Multiple tabs “run” independently while sharing the same system resources.
+
+## Exercise 1.5
+
+### Exercise 1.5.1
+
+I am running MacOS. It is not emulated.
+
+### Exercise 1.5.2
+
+- operating system: MacOS 15.6.1 (24G90)
+- number of cores: 10 (4 performance and 6 efficiency)
+- size of main memory: 16 GB
+- cache architecture (including sizes of the caches): 
+    - L1 :192k+128k cache per performance core and a 128k+64k cache per efficiency core.
+    - L2: 16 MB cache per performance core and 4 MB cache per efficiency core.
+    - L3: no L3 cache
+
+### Exercise 1.5.3
+
+My computer spent 2542 nanoseconds adding the numbers from 1 to 100.
