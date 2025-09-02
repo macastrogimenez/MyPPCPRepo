@@ -1,5 +1,5 @@
-# Created by https://www.toptal.com/developers/gitignore/api/gradle,git,java,erlang
-# Edit at https://www.toptal.com/developers/gitignore?templates=gradle,git,java,erlang
+# Created by https://www.toptal.com/developers/gitignore/api/erlang,java,visualstudiocode,git,gradle
+# Edit at https://www.toptal.com/developers/gitignore?templates=erlang,java,visualstudiocode,git,gradle
 
 ### Erlang ###
 .eunit
@@ -64,6 +64,25 @@ rebar3.crashdump
 hs_err_pid*
 replay_pid*
 
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+
+# Local History for Visual Studio Code
+.history/
+
+# Built Visual Studio Code Extensions
+*.vsix
+
+### VisualStudioCode Patch ###
+# Ignore all local history of files
+.history
+.ionide
+
 ### Gradle ###
 .gradle
 **/build/
@@ -91,4 +110,4 @@ gradle-app.setting
 # Java heap dump
 *.hprof
 
-# End of https://www.toptal.com/developers/gitignore/api/gradle,git,java,erlang
+# End of https://www.toptal.com/developers/gitignore/api/erlang,java,visualstudiocode,git,gradle
