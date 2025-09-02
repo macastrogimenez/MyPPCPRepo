@@ -2,8 +2,8 @@
 // sestoft@itu.dk * 2014-08-21
 // raup@itu.dk * 2021-08-27
 package exercises01;
-
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class TestLongCounterExperiments {
 
@@ -33,20 +33,16 @@ public class TestLongCounterExperiments {
     }
 
     class LongCounter {
-        private long count = 0;
+        private AtomicLong count = new AtomicLong(0);
         private ReentrantLock lock = new ReentrantLock();
-
+        
         public void increment() {
             lock.lock();
-            //try {
-                count++;
-            //}
-            //finally{
-                lock.unlock();
-            //}
+            count.getAndIncrement();
+            lock.unlock();
         }
 
-        public long get() {
+        public AtomicLong get() {
             return count;
         }
     }
