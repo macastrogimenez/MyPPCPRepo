@@ -124,4 +124,6 @@ I am running MacOS. It is not emulated.
 
 ### Exercise 1.5.3
 
+Measured the time using the program SumOneToOnehundred.java which is part of the Exercise01 package.
+
 My computer spent 2542 nanoseconds adding the numbers from 1 to 100.
