@@ -39,3 +39,24 @@ Finally, since no interleaving is possible the program returns '20000000' as exp
 ### Exercise 1.1.5
 
 Yes, my critical section contains the least number of lines of code since "count++" which executed in multiple steps has been replaced with "count.getAndIncrement()" which executes atomically.
+
+## Exercise 1.2
+
+### Exercise 1.2.1
+
+Done - the name of the file is UnsafeTestDashBarPrinter.java and executes as required.
+
+### Exercise 1.2.2
+
+Possible interleavings would be: 
+1. Thread 1 prints "-" then Thread 2 prints "-|", then Thread 1 prints "|" resulting in "--||"
+2. Thread 1 prints "-" then Thread 2 prints "-|-", then Thread 1 prints "|" resulting in "--|-|"
+
+The problem arises from - and | being printed by different threads without proper synchronization, leading to inconsistent output.
+
+### Exercise 1.2.3
+
+Done - the name of the file is SafeTestDashBarPrinter.java and executes as required.
+
+The program is correct because the critical section of the code is properly synchronized, ensuring that the printing of "-" and "|" is done in a thread-safe manner. This prevents any interleaving issues and guarantees the expected output.
+

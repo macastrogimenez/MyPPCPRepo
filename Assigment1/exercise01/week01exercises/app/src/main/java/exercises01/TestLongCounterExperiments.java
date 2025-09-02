@@ -1,6 +1,7 @@
 // For week 1
 // sestoft@itu.dk * 2014-08-21
 // raup@itu.dk * 2021-08-27
+
 package exercises01;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.atomic.AtomicLong;
@@ -38,8 +39,12 @@ public class TestLongCounterExperiments {
         
         public void increment() {
             lock.lock();
-            count.getAndIncrement();
-            lock.unlock();
+            try{
+                count.getAndIncrement();
+            }
+            finally {
+                lock.unlock();
+            }
         }
 
         public AtomicLong get() {
