@@ -1,13 +1,13 @@
 package exercises02;
 
-public class ReadersWriters{
+public class FairReadersWriters{
     private int sharedResource;
 
     public int getSharedResource() {
         return sharedResource;
     }
 
-        public class ReadWriteMonitor {
+    public class ReadWriteMonitor {
         private int readers         = 0;
         private boolean writer      = false;
 
@@ -16,12 +16,6 @@ public class ReadersWriters{
         //////////////////////////
 
         public synchronized void readLock() throws InterruptedException{
-            while(writer)
-                this.wait();
-            readers++;
-        }
-        
-        public synchronized void readLock2() throws InterruptedException {
             while(writer)
                 this.wait();
             readers++;
@@ -39,9 +33,11 @@ public class ReadersWriters{
         ///////////////////////////
 
         public synchronized void writeLock() throws InterruptedException {
-            while(readers > 0 || writer)
+            while (writer)
                 this.wait();
             writer=true;
+            while(readers > 0)
+                this.wait();   
         }
 
         public synchronized void writeUnlock() {
@@ -50,8 +46,7 @@ public class ReadersWriters{
         }
     }
 
-
-    public ReadersWriters() {
+    public FairReadersWriters() {
         ReadWriteMonitor m = new ReadWriteMonitor();
         this.sharedResource = 0;
         final int numReadersWriters = 10;
@@ -94,7 +89,7 @@ public class ReadersWriters{
     }
 
     public static void main(String[] args) {
-        new ReadersWriters();
+        new FairReadersWriters();
     }
 
 }

@@ -54,7 +54,7 @@ public class SafeCounterThreads2Covid {
                 if (counter.get() < MAX_PEOPLE_COVID) {
                     try {
                         counter.getAndIncrement();
-                        //System.out.println(this.getName2()+": one more person has passed through me and it total they are: "+counter.get()+" so far");
+                        // System.out.println(this.getName2()+": one more person has passed through me and it total they are: "+counter.get()+" so far");
                     }
                     finally{lock.unlock();}
                 }
