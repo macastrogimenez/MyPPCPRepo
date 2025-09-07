@@ -20,12 +20,6 @@ public class ReadersWriters{
                 this.wait();
             readers++;
         }
-        
-        public synchronized void readLock2() throws InterruptedException {
-            while(writer)
-                this.wait();
-            readers++;
-        }
 
         public synchronized void readUnlock() {
             readers--;
@@ -80,7 +74,7 @@ public class ReadersWriters{
                     System.out.println(" Writer " + Thread.currentThread().getId() + " started writing");
                     if (sharedResource<100) {
                             sharedResource++;
-                            System.out.println("count: "+sharedResource);
+                            //System.out.println("count: "+sharedResource);
                     }
                     System.out.println(" Writer " + Thread.currentThread().getId() + " stopped writing");
                     m.writeUnlock();

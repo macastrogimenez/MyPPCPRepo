@@ -23,7 +23,7 @@ Yes, the program will loop forever because thread t does not terminate since it 
 
 ### Exercise 2.2.2
 
-Done - the name of the file is FixedTestMutableInteger.java. Implemented synchronized in the get method of MutableInteger, to ensure visibility. It is not necessary to add it to set since MutableInteger is initialized as final.
+Done - the name of the file is FixedTestMutableInteger.java. Implemented synchronized in the get method of MutableInteger, to ensure visibility. It is necessary to add synchronized() to the set() method so that the new value is set in main memory, not only in cache.
 
 ### Exercise 2.2.3
 

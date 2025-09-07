@@ -1,5 +1,3 @@
-// For week 2
-// sestoft@itu.dk * 2015-10-29
 package exercises02;
 
 public class SafeTestLocking {

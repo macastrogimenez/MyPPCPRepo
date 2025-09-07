@@ -5,7 +5,7 @@
 ### Exercise 1.1.1
 
 The answers I got from running it 3 times were as below:
-19326139, 19326139, 19167248. Neither of them amount to 20000000 because of interleaving. The code from TestLongCounterExperiments is not thread-safe, so there are racing conditions generating the results to be incorrect, since the tasks executed by every thread are not atomic enough, not to be interrupted half-way through (therefore leaving them incomplete) by other Threads.
+19326139, 19326139, 19167248. Neither of them amount to 20000000 because of interleaving. The output is non-deterministic. With this large number of computations, it’s very possible that two threads will want to increment `count` at exactly the same time. As a result, the final `count` will be less than 20 million, because when one thread tries to increase `count` from 1 to 2, the other might also try to do this simultaneously.
 
 ### Exercise 1.1.2
 
@@ -13,32 +13,30 @@ Yes, I get the expected output: 200. However, this is possible because interleav
 
 ### Exercise 1.1.3
 
-All three expressions are equally susceptible to interleaving problems when executed inside a while loop with multiple threads.
+`count += 1`, `count = count + 1`, and `count++` (or `++count`) all perform the same underlying sequence:  
 
-#### with count += 1
-
-The results are very similar to "count = count + 1" : 19165454, 19412820, 19212987
-
-#### with count++
-
-Very similar: 19411636, 19264517, 19082172
-
-// Explain why your solution is correct, and why no other output is possible.
-Note: In your explanation, please use the concepts and vocabulary introduced during the lecture, e.g., critical
-sections, interleavings, race conditions, mutual exclusion, etc.
+1. Read the value of `count`.  
+2. Add one.  
+3. Write the new value back.  
+ 
+The only difference is in their expresion result (e.g., `count++` returns the old value, `++count` and `count += 1` return the new value).  
+In a multithreaded context, they are all equally unsafe because the increment is not atomic — race conditions can occur regardless of which form is used.
 
 ### Exercise 1.1.4
 
+The name of the file is TestLongCounterExperiments.java 
+
 The idea of mutual exclusion is to prevent two or more threads from modifying or reading shared data in a way that causes race conditions or inconsistent states.
+
 No other output is possible because the section of the code that has been edited is the critical section that makes the program as a whole be thread-safe (or not - as it was in its original state).
 
-I changed the count type from long to AtomicLong so that "count++" would be replaced by "count.getAndIncrement()" which should execute in a single step. I also added an instance of a lock to the LongCounter class and used it inside the LongCounter.increment() method so the lock would be acquired by any thread that is using the method increment() and not released until the very last line of the increment() method. Also, using ReentrantLock is particularly safe since it allows the Thread that currently holds the lock to request for it once more if it needs it (as it would be in the case of incrementing the counter which consists of several steps).
+Using ReentrantLock is particularly safe since it allows the Thread that currently holds the lock to request for it once more if it needs it (as it would be in the case of incrementing the counter which consists of several steps).
 
 Finally, since no interleaving is possible the program returns '20000000' as expected.
 
 ### Exercise 1.1.5
 
-Yes, my critical section contains the least number of lines of code since "count++" which executed in multiple steps has been replaced with "count.getAndIncrement()" which executes atomically.
+Yes, my critical section contains the least number of lines of code since "count++" is the only operation that needs to be thread-safe.
 
 ## Exercise 1.2
 
@@ -71,18 +69,20 @@ Done - the name of the file is SafeCounterThreads2Covid.java and executes as req
 
 The program runs in the following way:
 
-- The counter is an AtomicInteger, which guarantees that each increment (getAndIncrement()) is atomic—no increments are lost, even if two threads try to increment at the same time.
 - The ReentrantLock ensures that only one thread at a time can enter the critical section where the counter is incremented and printed. This prevents race conditions and guarantees that the counter never exceeds MAX_PEOPLE_COVID.
-- Both threads (turnstile1 and turnstile2) run a loop, each trying to increment the counter up to PEOPLE times, but the lock and atomic counter ensure that the total never exceeds 15000.
+- Both threads (turnstile1 and turnstile2) run a loop, each trying to increment the counter up to PEOPLE, but the lock and counter ensure that the total never exceeds 15000.
 
-The combination of atomic operations and locking guarantees that all increments are counted and the final result is always correct, regardless of thread scheduling or interleaving.
+Locking guarantees that all increments are counted and the final result is always correct, regardless of thread scheduling or interleaving.
 
 ## Exercise 1.4
 
 ### Exercise 1.4.1
 
-From Goetz resource utilization seems to be very closely related to the Inherent point from the concurrency note, like exploitation and convenience. However, there is a difference when it comes to the understanding of fairness. Goetz emphasizes the importance of fairness in resource allocation, ensuring that all users and programs have equitable access to the machine's resources, while the concurrency note touches on fairness more as a byproduct of efficient resource utilization and exploitation.
-Also, it is particularly interesting the point on the concurrency note that highlights the use of concurrency for enabling several programs to share some resources in a manner where each can act as if they had sole ownership (hiding the fact that they are actually sharing those resources).
+Goetz highlights fairness as a motivation, which doesn’t really appear in the concurrency note. For him fairness means ensuring programs and users get a fair share of the system’s resources, while the note’s idea of “hidden concurrency” is more about creating the illusion of sole oewnership.
+
+On the other hand, the concurrency note talks about inherent concurrency, focusing on external events and independent input streams—something Goetz doesn’t separate out as its own category.
+
+What they do have in common are the motivations of parallelism (taking advantage of multiple cores) and better resource utilization (keeping the CPU busy instead of sitting idle).
 
 ### Exercise 1.4.2
 
@@ -92,11 +92,15 @@ Also, it is particularly interesting the point on the concurrency note that high
 
 - Web servers → Each HTTP request handled independently.
 
+- Web browsers → Multiple tabs run independently while sharing the same system resources.
+
 #### Exploitation (Parallel hardware, distributed computing):
 
 - Java → Parallel computations on multicore CPUs.
 
 - Whatsapp on iOS/ Android → Background threads for message handling, UI updates.
+
+- Zoom or Teams video call
 
 #### Hidden (Illusion of exclusive resources):
 
@@ -104,7 +108,7 @@ Also, it is particularly interesting the point on the concurrency note that high
 
 - Java Virtual Machine (JVM) → Many threads appear to run at once, but OS schedules them on available CPUs.
 
-- Web browsers → Multiple tabs “run” independently while sharing the same system resources.
+- ⁠Any webapp which interacts with databases
 
 ## Exercise 1.5
 
@@ -114,6 +118,8 @@ I am running MacOS. It is not emulated.
 
 ### Exercise 1.5.2
 
+Miguel:
+
 - operating system: MacOS 15.6.1 (24G90)
 - number of cores: 10 (4 performance and 6 efficiency)
 - size of main memory: 16 GB
@@ -122,8 +128,32 @@ I am running MacOS. It is not emulated.
     - L2: 16 MB cache per performance core and 4 MB cache per efficiency core.
     - L3: no L3 cache
 
+Urszula: 
+
+- operating system: MacOS 15.6.1 (24G90)
+- number of cores: 10 (4 performance and 6 efficiency)
+- size of main memory: 16 GB
+- cache architecture (including sizes of the caches): 
+    - L1 :192k+128k cache per performance core and a 128k+64k cache per efficiency core.
+    - L2: 16 MB cache per performance core and 4 MB cache per efficiency core.
+    - L3: no L3 cache
+
+Blanka: 
+
+- operating system: macOS 15.6.1
+- number of cores (physical/logical):10, 10
+- size of main memory: 16 GB
+- cache architecture (including sizes of the caches): 
+    - 131072 bytes
+    - 65536 bytes 
+    - 4194304 bytes
+
 ### Exercise 1.5.3
 
 Measured the time using the program SumOneToOnehundred.java which is part of the Exercise01 package.
 
+Miguel and Urszula:
 My computer spent 2542 nanoseconds adding the numbers from 1 to 100.
+
+Blanka:
+Time spent: 833 nanoseconds

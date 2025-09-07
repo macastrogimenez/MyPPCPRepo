@@ -18,9 +18,9 @@ public class FixedTestMutableInteger {
 }
 
 class MutableInteger {
-    
     private int value = 0;
-    public void set(int value) { 
+
+    public synchronized void set(int value) { 
         this.value = value;
     }
     public synchronized int get() { // added synchronized here to ensure visibility

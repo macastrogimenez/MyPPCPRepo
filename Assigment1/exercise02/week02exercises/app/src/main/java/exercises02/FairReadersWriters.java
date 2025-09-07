@@ -33,9 +33,9 @@ public class FairReadersWriters{
         ///////////////////////////
 
         public synchronized void writeLock() throws InterruptedException {
-            while (writer)
+            while (writer) // this method has been edited to ensure fairness
                 this.wait();
-            writer=true;
+            writer=true; 
             while(readers > 0)
                 this.wait();   
         }
