@@ -32,7 +32,7 @@ class Mystery {
         sum += x;
     }
 
-    public static /*synchronized*/ double sum() {
+    public static /*synchronized*/ double sum() { // it is unnecessary since it is executed when both t1 and t2 have died.
         return sum;
     }
 }
