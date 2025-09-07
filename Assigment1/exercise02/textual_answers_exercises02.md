@@ -19,3 +19,16 @@ My monitor implementation does not contain any condition varibles because Java's
 
 ### Exercise 2.2.1
 
+Yes, the program will loop forever because thread t does not terminate since it is unable to see the change made by the main thread to the variable mi, as this variable has not been set to volatile, therefore there is no visibility of the changes made to it.
+
+### Exercise 2.2.2
+
+Done - the name of the file is FixedTestMutableInteger.java. Implemented synchronized in the get method of MutableInteger, to ensure visibility. It is not necessary to add it to set since MutableInteger is initialized as final.
+
+### Exercise 2.2.3
+
+Another option for the Thread t would to terminate if it was not defined as synchronized would be to declare the field value of MutableInteger as volatile, so any read operations involving it would need to be checked directly from main memory. However, if we were to remove synchronized and not add any alternative that would ensure visibility, Thread t would never terminate.
+
+### Exercise 2.2.4
+
+As explained in point 2.2.3, in this case the Thread would finish because using volatile on value would mean that any read or write operations done on this variable would have to be performed directly on main memory, which would slow down the program but would ensure visibility - even though not mutual exclusion.
