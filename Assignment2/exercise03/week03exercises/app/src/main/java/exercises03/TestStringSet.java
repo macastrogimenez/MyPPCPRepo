@@ -8,20 +8,20 @@ import java.util.ArrayList;
 
 public class TestStringSet {
 
-    StringSet s;
+    StringSet s; 
 
     public TestStringSet() throws InterruptedException {
-        s = new StringSet();
+        s = new StringSet(); // (init(s))
 
-        Thread t1 = new Thread(() -> {
+        Thread t1 = new Thread(() -> { // (init(t1))
                 s.findOrAdd("PCPP");
         });
-        Thread t2 = new Thread(() -> {
-                s.find("PCPP");
+        Thread t2 = new Thread(() -> { // (init(t2))
+                s.find("PCPP"); 
         });
 
-        t1.start();
-        t2.start();
+        t1.start(); // (start(t1))
+        t2.start(); // (start(t2))
     }
 
 
@@ -32,19 +32,21 @@ public class TestStringSet {
         private final List<String> list = new ArrayList<String>();
 
         public synchronized int findOrAdd(String s) {
-            int ret = list.indexOf(s);
+            //lock here (lock())
+            int ret = list.indexOf(s); // read access on the list (1)
             if (ret == -1) {      
-                list.add(s);
+                list.add(s); // write access on the list (2)
             }
             return ret;
+            //unlock here (unlock()) 
         }
 
-        public int find(String s) {
-            return list.indexOf(s);
+        public synchronized int find(String s) {
+            return list.indexOf(s); // read access on the list (3)
         }
     }
 
     public static void main(String[] args) throws InterruptedException {
-        new TestStringSet();
+        new TestStringSet(); 
     }
 }

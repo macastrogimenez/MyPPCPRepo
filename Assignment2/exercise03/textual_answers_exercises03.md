@@ -31,9 +31,17 @@ The HB sets below are the same for all executions due to the program order. What
 
 For HB = Happens-Before program order set; m = main thread; t1 = CountingThread t1; t2 = CountingThread t2:
 
-- HB (m/po) = m(init(count)) -> m(init(t1)) -> m(init(t2)) -> m(start(t1)) -> m(start(t2)) -> m(join(t1)) -> m(join(t2)) -> m(3)
-- HB (t1/po) = t1(1) -> t1(2)
-- HB (t2/po) = t2(1) -> t2(2)
+HB (po) = {
+  m(init(count)) → m(init(t1)),
+  m(init(t1)) → m(init(t2)),
+  m(init(t2)) → m(start(t1)),
+  m(start(t1)) → m(start(t2)),
+  m(start(t2)) → m(join(t1)),
+  m(join(t1)) → m(join(t2)),
+  m(join(t2)) → m(3),
+  t1(1) → t1(2),
+  t2(1) → t2(2)
+}
 
 ### Exercise 3.1.3
 
@@ -50,16 +58,25 @@ The HB sets below are not the same for all executions due to the program order. 
 
 For HB = Happens-Before start-termination set; m = main thread; t1 = CountingThread t1; t2 = CountingThread t2:
 
-- HB (m/s-t) = m(init(count)) -> m(init(t1)) -> ...  -> m(join(t2)) -> m(3) or HB (m/s-t) = m(init(count)) -> m(init(t1)) -> ... -> m(join(t1)) -> m(3)
-- HB (t1/s-t) = m(start(t1)) -> t1(1) -> t1(2) -> m(join(t1))
-- HB (t2/s-t) = m(start(t2)) -> t2(1) -> t2(2) -> m(join(t2))
+- HB (init-term) = {
+        m(start(t1)) → t1(1),
+        m(start(t2)) → t2(1),
+        t1(2) → m(join(t1)),
+        t2(2) → m(join(t2))
+    }
 
 ### Exercise 3.1.4
 
 The sets of all possible synchronization orders for this program:
 
-- SO (m) = m(start(t1)) -> m(start(t2)) -> m(join(t1)) -> m(join(t2))
-
+SO = {
+  t1(1) -> t1(2) -> t2(1) -> t2(2),
+  t2(1) -> t2(2) -> t1(1) -> t1(2),
+  t1(1) -> t2(1) -> t1(2) -> t2(2),
+  t2(1) -> t1(1) -> t2(2) -> t1(1),
+  t1(1) -> t2(1) -> t2(2) -> t1(2),
+  t2(1) -> t1(1) -> t1(2) -> t2(2)
+}
 
 ### Exercise 3.1.5
 
@@ -151,11 +168,7 @@ As all these actions would be performed on a volatile variable, therefore if we 
 
 ## Exercise 3.2
 
-Show, using the Java memory model, that the program is not correctly synchronized.
-NOTE I: In your reasoning, consider actions involving the method call list.indexOf(...) as a read
-access to list, and the method call list.add(...) as a write access to list.
-NOTE II: The method calls s.findOrAdd("PCPP") and s.find("PCPP") are equivalent to expand-
-ing the method definition within the body of the thread
+### Exercise 3.2.1
 
 Definitions:
 
@@ -174,5 +187,61 @@ Solution:
 
 As per JMM, the program is not correctly synchronized because both threads are trying to access the StringSet s to either write or read the string "PCPP" on/from it and there is not HB relation between them. More specifically, in the case of t2 executing before t1, it may be reading from s while t1 acquires the lock to write to it, therefore, the information it will read may no longer be correct, hence  there is still a data race on s.
 
+### Exercise 3.2.2
 
+Add the modifier synchronized to the definition of the method find(...) in the class StringSet.
+Show, using the Java memory model, whether the program is correctly synchronized. The notes for 3.2.1
+also apply in this exercise.
 
+For HB = Happens-Before set; m = main thread; t1 = Thread t1; t2 = Thread t2
+
+| Step             | Operation                                       |
+|------------------|----------------------------------------------   |
+| (init(s))        | s = new StringSet();                            |
+| (init(t1))       | Thread t1 = new Thread()                        |
+| (init(t2))       | Thread t2 = new Thread()                        |
+| (start(t1))      | t1.start();                                     |
+| (start(t2))      | t2.start();                                     |
+|  (1)             | int ret = list.indexOf(s);                      |
+|  (2)             | list.add(s);                                    |
+|  (3)             | return list.indexOf(s);                         |
+
+Before adding synchronized to the method s.find() we had the following HB relation (as findOrAdd() was already synchronized):
+
+For the synchronization order : m(start(t1)) -> t1(lock()) -> t1(1) -> t1(2) -> t1(unlock()) -> t2(3)
+
+The edge t1(unlock()) -> t2(3) already existed, meaning a HB relation between the read and write from t1 and read from t2.
+
+However, since adding synchronized to the program we have a new HB edge connecting the completion of t2 and unlock() of s, with the start() and run of t1 to read and from s:
+
+- m(start(t2)) -> t2(lock()) -> t2(3) -> t2(unlock()) -> t1(lock()) ...
+
+So, by transitivity we have that t2(lock())->t1(lock()), therefore a HB relation is established also for the interleaving in which t2 would execute first.
+
+## Exercise 3.3
+
+### Exercise 3.3.1
+
+The following actions should have a HB order:
+
+- while(x==0) // reading x
+- x=42; // writing x
+
+### Exercise 3.3.2
+
+Definitions:
+
+- A data race occurs if two threads access the same variable, at least one access is a write, and the accesses are not ordered by happens-before (HB).
+- The program order rule only orders actions within the same thread.
+- The thread start and termination rules only order the start of a thread before its first action, and the last action of a thread before a join.
+
+Solution:
+
+However, in this program there is no synchronization (no lock, no volatile, no explicit HB edge) between the thread writing x=42 and the thread reading x in the loop. Therefore, the write to x and the read of x are not ordered by happens-before in all executions.
+
+Demonstration:
+
+Let m be the thread that writes x=42.
+Let t1 be the thread that reads x in while(x==0).
+The only HB pairs are those from program order within main and t1, and from t1 start/termination, but there is no HB edge from m's write to t2's read (or vice versa).
+As a result, the read and write actions on x are not ordered by HB in all executions.
