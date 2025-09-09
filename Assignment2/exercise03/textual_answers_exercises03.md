@@ -151,3 +151,34 @@ As all these actions would be performed on a volatile variable, therefore if we 
 
 ## Exercise 3.2
 
+Show, using the Java memory model, that the program is not correctly synchronized.
+NOTE I: In your reasoning, consider actions involving the method call list.indexOf(...) as a read
+access to list, and the method call list.add(...) as a write access to list.
+NOTE II: The method calls s.findOrAdd("PCPP") and s.find("PCPP") are equivalent to expand-
+ing the method definition within the body of the thread
+
+Definitions:
+
+- Conflicting actions: Given an execution e ∈E, we say that actions a, b ∈e are conflicting iff they are accesses on the same (non-volatile) variable and at least one of them is a write access.
+
+- Correctly synchronized programs: A program is correctly synchronized iff none of its executions contains data races.
+
+- Data race: A data race occurs if two threads access the same variable, and all of the following hold:
+
+1. At least one of the accesses is a write.
+2. The accesses are not ordered by the happens-before (HB) relation.
+
+If a program has a data race, then its behavior is not guaranteed to be sequentially consistent.
+
+Solution:
+
+// 1. given the string s, t1 checks if s is in the list, if not it adds it -> using findOrAdd(String s)
+// 2. concurrently t2 with find(String s) is checking if s is in the stringSet, if it is not, it returns -1
+    // The problem -> 
+        // sometimes t2 will check if s in in the set before had the chance to add it
+        // therefore the return value will be -1, when it should be 0.
+
+// The solution:
+    // t1 should run before t2?
+
+// Why is the program not correctly synchronized? It is not correctly synchronized because both threads are using a different method  
