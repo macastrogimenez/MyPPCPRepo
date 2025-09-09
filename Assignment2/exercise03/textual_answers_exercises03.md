@@ -159,7 +159,7 @@ ing the method definition within the body of the thread
 
 Definitions:
 
-- Conflicting actions: Given an execution e ∈E, we say that actions a, b ∈e are conflicting iff they are accesses on the same (non-volatile) variable and at least one of them is a write access.
+- Conflicting actions: Given an execution e ∈ E, we say that actions a, b ∈e are conflicting iff they are accesses on the same (non-volatile) variable and at least one of them is a write access.
 
 - Correctly synchronized programs: A program is correctly synchronized iff none of its executions contains data races.
 
@@ -172,13 +172,7 @@ If a program has a data race, then its behavior is not guaranteed to be sequenti
 
 Solution:
 
-// 1. given the string s, t1 checks if s is in the list, if not it adds it -> using findOrAdd(String s)
-// 2. concurrently t2 with find(String s) is checking if s is in the stringSet, if it is not, it returns -1
-    // The problem -> 
-        // sometimes t2 will check if s in in the set before had the chance to add it
-        // therefore the return value will be -1, when it should be 0.
+As per JMM, the program is not correctly synchronized because both threads are trying to access the StringSet s to either write or read the string "PCPP" on/from it and there is not HB relation between them. More specifically, in the case of t2 executing before t1, it may be reading from s while t1 acquires the lock to write to it, therefore, the information it will read may no longer be correct, hence  there is still a data race on s.
 
-// The solution:
-    // t1 should run before t2?
 
-// Why is the program not correctly synchronized? It is not correctly synchronized because both threads are using a different method  
+
