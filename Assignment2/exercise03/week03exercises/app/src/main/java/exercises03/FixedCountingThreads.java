@@ -36,6 +36,6 @@ public class FixedCountingThreads {
 
 
     public static void main(String[] args) throws InterruptedException {
-        new CountingThreads();
+        new FixedCountingThreads();
     }
 }
