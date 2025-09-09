@@ -3,12 +3,14 @@
 
 package exercises03;
 
+import java.util.concurrent.locks.ReentrantLock;
+
 public class FixedCountingThreads {
-    int count;
+    private int count;
+    private ReentrantLock l = new ReentrantLock(); // init(l): the lock was added to the class so both CountingThread instances can use it
 
     public FixedCountingThreads() throws InterruptedException {
         count = 0;
-
         
         CountingThread t1 = new CountingThread();
         CountingThread t2 = new CountingThread();
@@ -25,8 +27,10 @@ public class FixedCountingThreads {
     public class CountingThread extends Thread {
 
         public void run() {
+            l.lock(); // lock before accessing the shared variable
             int temp = count;
-            count = temp + 1;            
+            count = temp + 1;
+            l.unlock();  // unlock after updating the shared variable
         }
     }
 
