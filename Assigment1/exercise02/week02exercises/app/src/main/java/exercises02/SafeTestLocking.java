@@ -1,0 +1,36 @@
+package exercises02;
+
+public class SafeTestLocking {
+    public static void main(String[] args) {
+        final int count = 1_000_000;
+        Mystery m = new Mystery();
+        Thread t1 = new Thread(() -> {
+                for (int i=0; i<count; i++)
+                    m.addInstance(1);
+        });
+        Thread t2 = new Thread(() -> {
+                for (int i=0; i<count; i++)
+                    //m.addStatic(1);
+                    m.addInstance(1); // implementation that ensured mutual exclusions since both Threads will now share monitor
+        });
+        t1.start(); t2.start();
+        try { t1.join(); t2.join(); } catch (InterruptedException exn) { }
+        System.out.printf("Sum is %f and should be %f%n", m.sum(), 2.0 * count);
+    }
+}
+
+class Mystery {
+    private static double sum = 0;
+
+    public static synchronized void addStatic(double x) {
+        sum += x;
+    }
+
+    public synchronized void addInstance(double x) {
+        sum += x;
+    }
+
+    public static /*synchronized*/ double sum() { // synchronized is unnecessary since it is executed when both t1 and t2 have died.
+        return sum;
+    }
+}
