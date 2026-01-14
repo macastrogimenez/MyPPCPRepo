@@ -77,15 +77,31 @@ public class TestReadWriteCASLock {
         for (int i = 0; i < numThreads; i++) {
             threads[i] = new Thread(() -> {
                 try {
+                    // Wait until all writer threads are ready, to increase the
+                    // chance of concurrent contention and expose race
+                    // conditions in a buggy implementation.
                     startBarrier.await();
+
+                    // Each thread repeatedly attempts to acquire the write
+                    // lock for `iterations` rounds. The busy-wait loop
+                    // `while (!lock.writerTryLock()) Thread.yield()` keeps
+                    // retrying until the try-lock succeeds; readers are
+                    // irrelevant for this test so only writers are used.
                     for (int j = 0; j < iterations; j++) {
                         while (!lock.writerTryLock()) {
                             Thread.yield();
                         }
 
+                        // Instrumentation: increment activeWriters to record
+                        // how many writer threads are inside the critical
+                        // section simultaneously. Update maxConcurrent to
+                        // capture the peak number of concurrent writers seen
+                        // during the run.
                         int current = activeWriters.incrementAndGet();
                         maxConcurrent.updateAndGet(prev -> Math.max(prev, current));
 
+                        // Leave the critical section and decrement the
+                        // active counter, then release the lock.
                         activeWriters.decrementAndGet();
                         lock.writerUnlock();
                     }

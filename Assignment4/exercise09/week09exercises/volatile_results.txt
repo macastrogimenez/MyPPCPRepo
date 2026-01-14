@@ -1,0 +1,23 @@
+
+# OS:   Mac OS X; 26.0.1; aarch64
+# JVM:  Homebrew; 17.0.16
+# CPU:  null; 10 "cores"
+# Date: 2025-10-31T17:37:56+0100
+non-volatile inc                      0.5 ns       0.03  536870912
+volatile inc                          1.7 ns       0.01  268435456
+
+
+# OS:   Mac OS X; 26.0.1; aarch64
+# JVM:  Homebrew; 17.0.16
+# CPU:  null; 10 "cores"
+# Date: 2025-10-31T17:38:50+0100
+non-volatile inc                      0.5 ns       0.02  536870912
+volatile inc                          1.7 ns       0.05  268435456
+
+
+# OS:   Mac OS X; 26.0.1; aarch64
+# JVM:  Homebrew; 17.0.16
+# CPU:  null; 10 "cores"
+# Date: 2025-11-01T17:24:15+0100
+non-volatile inc                      0.5 ns       0.00  536870912
+volatile inc                          1.7 ns       0.01  268435456

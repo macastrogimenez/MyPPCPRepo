@@ -1,0 +1,37 @@
+# OS:   Mac OS X; 26.0.1; aarch64
+# JVM:  Homebrew; 17.0.16
+# CPU:  null; 10 "cores"
+# Date: 2025-11-02T18:21:43+0100
+countSequential                 2578999.2 ns    9316.07        128
+countParallelN       1          2663908.4 ns    3988.31        128
+countParallelN       2          1778030.5 ns   11788.28        256
+countParallelN       3          1440507.3 ns   27360.90        256
+countParallelN       4          1329976.3 ns   36514.94        256
+countParallelN       5          1509583.2 ns    6650.64        256
+countParallelN       6          1578389.9 ns   18816.95        256
+countParallelN       7          1611816.4 ns   16285.78        256
+countParallelN       8          1775809.2 ns  184575.19        256
+countParallelN       9          1726565.9 ns   42588.58        256
+countParallelN      10          1744724.1 ns   80429.25        256
+countParallelN      11          1689839.7 ns   13087.96        256
+countParallelN      12          1756730.7 ns   70219.86        256
+countParallelN      13          1736406.2 ns   45488.59        256
+countParallelN      14          1800936.1 ns   78040.23        256
+countParallelN      15          1760272.7 ns   25247.06        256
+countParallelN      16          1784052.2 ns   25696.58        256
+countParallelN      17          1823278.7 ns   41371.00        256
+countParallelN      18          1785197.1 ns    7078.07        256
+countParallelN      19          1820534.5 ns   51714.20        256
+countParallelN      20          1901691.1 ns   71436.13        256
+countParallelN      21          1832725.3 ns   17811.25        256
+countParallelN      22          1926876.9 ns  107318.66        256
+countParallelN      23          1883378.3 ns   61815.08        256
+countParallelN      24          1868075.0 ns   14562.25        256
+countParallelN      25          1880609.4 ns   15791.08        256
+countParallelN      26          1898763.1 ns   13720.63        256
+countParallelN      27          1916901.3 ns    9588.64        256
+countParallelN      28          1929236.1 ns   12874.60        256
+countParallelN      29          1939324.1 ns   11289.91        256
+countParallelN      30          1972626.3 ns   30023.13        128
+countParallelN      31          2009610.9 ns   26056.80        128
+countParallelN      32          2024951.3 ns   20595.21        128

@@ -1,4 +1,4 @@
-package exercise07;
+package exercises07;
 
 public class App {
     public String getGreeting() {
@@ -9,4 +9,5 @@ public class App {
         System.out.println(new App().getGreeting());
     }
 }
+
 

@@ -1,0 +1,39 @@
+Array Size: 5697
+# Occurences of ipsum :1430
+# OS:   Mac OS X; 26.0.1; aarch64
+# JVM:  Homebrew; 17.0.16
+# CPU:  null; 10 "cores"
+# Date: 2025-11-03T02:21:44+0100
+WordCountSequential             6310287.6 ns    9792.51         64
+WordCountParallel       1       6443705.0 ns   10786.14         64
+WordCountParallel       2       3594944.1 ns   18714.65        128
+WordCountParallel       3       2625999.6 ns   11668.47        128
+WordCountParallel       4       2304209.0 ns   64895.28        128
+WordCountParallel       5       2444653.1 ns   13309.59        128
+WordCountParallel       6       2476785.2 ns   18523.02        128
+WordCountParallel       7       2480334.5 ns   14547.02        128
+WordCountParallel       8       2500156.3 ns    7655.35        128
+WordCountParallel       9       2495271.6 ns   20408.64        128
+WordCountParallel      10       2179588.1 ns   15811.44        128
+WordCountParallel      11       2168112.0 ns    5820.23        128
+WordCountParallel      12       2193417.3 ns   33998.04        128
+WordCountParallel      13       2293779.8 ns    3982.02        128
+WordCountParallel      14       2241457.7 ns   52299.27        128
+WordCountParallel      15       2213760.3 ns   23925.47        128
+WordCountParallel      16       2210749.3 ns   13355.87        128
+WordCountParallel      17       2225978.0 ns   13418.55        128
+WordCountParallel      18       2300418.5 ns   27936.90        128
+WordCountParallel      19       2374644.5 ns  100746.06        128
+WordCountParallel      20       2388959.4 ns  113982.85        128
+WordCountParallel      21       2305529.7 ns   13694.08        128
+WordCountParallel      22       2302573.6 ns   14661.92        128
+WordCountParallel      23       2319633.9 ns   13112.36        128
+WordCountParallel      24       2348931.1 ns   43499.32        128
+WordCountParallel      25       2344947.8 ns  121204.20        128
+WordCountParallel      26       2312731.3 ns   15825.78        128
+WordCountParallel      27       2397622.7 ns   39860.93        128
+WordCountParallel      28       2422948.0 ns   34465.01        128
+WordCountParallel      29       2404042.9 ns   61178.17        128
+WordCountParallel      30       2297245.1 ns   27073.41        128
+WordCountParallel      31       2321056.6 ns   25243.53        128
+WordCountParallel      32       2289937.9 ns   19481.69        128
