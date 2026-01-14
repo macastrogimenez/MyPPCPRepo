@@ -1,0 +1,14 @@
+Message format for Bank
+
+The message passing class assumes that all messages are strings. To honor this the messages in the Mobile payment system is encoded as follows
+
+transaction(a1, a2, amount): 
+- a1 is an integer identifying the sender account by its port number
+- a2 is an integer identifying the receiver account by its port number
+- amount is an integer telling what amount should be transferred between a1 to a2. If amount is negative the transfer is from a2 to a1. If it is positive the amount is transferred from a1 to a2
+
+Identifying accounts 
+Accounts are identified with a number 1, 2, 3 ...
+Their receiving port is 8080 + number
+
+For professional applications use JSON: https://www.json.org/json-en.html

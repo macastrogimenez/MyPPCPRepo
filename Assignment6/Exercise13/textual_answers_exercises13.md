@@ -1,0 +1,1 @@
+See `server.erl` for documentation of the actor.
